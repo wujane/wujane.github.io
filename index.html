@@ -1,95 +1,306 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y75XBB28JJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jane Wu</title>
+  <meta name="description" content="Jane Wu is an Assistant Professor of Strategy at UCLA Anderson. She studies how measurement shapes innovation and entrepreneurship — metrics, figures of merit, and strategy in nascent markets.">
+  <meta property="og:title" content="Jane Wu">
+  <meta property="og:description" content="Assistant Professor of Strategy, UCLA Anderson. How measurement shapes innovation and entrepreneurship.">
+  <meta property="og:url" content="https://wujane.github.io/">
+  <meta property="og:image" content="https://wujane.github.io/wu_square.jpg">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y75XBB28JJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Y75XBB28JJ');
+  </script>
+<style>
+  :root {
+    --ground: #ffffff;
+    --ink: #333333;
+    --soft: #666666;
+    --muted: #999999;
+    --accent: #2a7ab0;
+    --hairline: #eeeeee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #15181b;
+      --ink: #d6d9dc;
+      --soft: #a5abb1;
+      --muted: #7c848b;
+      --accent: #6cabd8;
+      --hairline: #2a2f34;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #15181b;
+    --ink: #d6d9dc;
+    --soft: #a5abb1;
+    --muted: #7c848b;
+    --accent: #6cabd8;
+    --hairline: #2a2f34;
+  }
+  :root[data-theme="light"] {
+    --ground: #ffffff;
+    --ink: #333333;
+    --soft: #666666;
+    --muted: #999999;
+    --accent: #2a7ab0;
+    --hairline: #eeeeee;
+  }
 
-  gtag('config', 'G-Y75XBB28JJ');
-</script>
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 55px 30px 60px;
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+  }
 
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  main h2 { scroll-margin-top: 20px; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover, a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  p { margin: 0 0 14px; }
+
+  /* ---------- sidebar ---------- */
+  aside {
+    width: 235px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 55px;
+  }
+  aside h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+    color: var(--ink);
+  }
+  aside .role {
+    color: var(--soft);
+    margin-bottom: 18px;
+  }
+  aside img {
+    width: 120px;
+    height: 120px;
+    border-radius: 4px;
+    display: block;
+    margin-bottom: 18px;
+  }
+  aside .contact {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  aside .contact a { color: var(--soft); }
+  aside nav {
+    border-top: 1px solid var(--hairline);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 14px;
+  }
+  aside nav .nav-sep {
+    margin-top: 9px;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+  }
+  @media (max-width: 720px) {
+    aside nav .nav-sep { margin-top: 0; padding-top: 0; border-top: none; }
+  }
+
+  /* ---------- content ---------- */
+  main {
+    flex: 1;
+    min-width: 0;
+    max-width: 560px;
+  }
+  main h2 {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 34px 0 14px;
+  }
+  main h2:first-child { margin-top: 0; }
+  main h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 20px 0 4px;
+  }
+
+  ul.pubs { list-style: none; margin: 0; padding: 0; }
+  ul.pubs li {
+    padding-left: 18px;
+    text-indent: -18px;
+    margin-bottom: 12px;
+  }
+  .venue { font-style: italic; }
+  .note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .pubs .extra { text-indent: 0; }
+
+  .course-meta {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  details { margin: 4px 0 10px; }
+  summary {
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--accent);
+  }
+  details p { font-size: 14px; color: var(--soft); margin-top: 8px; }
+  details blockquote {
+    margin: 10px 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--hairline);
+    font-size: 14px;
+    color: var(--soft);
+    font-style: italic;
+  }
+
+  .course-photo {
+    width: 100%;
+    max-width: 540px;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+    margin: 10px 0 18px;
+  }
+
+  footer {
+    margin-top: 44px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  footer a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--hairline); text-underline-offset: 3px; }
+
+  @media (max-width: 720px) {
+    .wrapper { flex-direction: column; gap: 30px; padding: 35px 22px 50px; }
+    aside { position: static; width: auto; }
+    aside img { width: 104px; height: 104px; }
+    aside nav { flex-direction: row; flex-wrap: wrap; gap: 6px 18px; }
+  }
 </style>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-     <title> Jane Wu </title>
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-      <h1> Jane Wu </h1>
-        <p> </p>
-        <p>Assistant Professor <br>
-          UCLA Anderson <br>
-          </p>
-       <p>
-          <img src = "wu.png" width = 120> </p>
-       
-        <p>  <a href="mailto:jane.wu@anderson.ucla.edu">jane.wu (a) anderson.ucla.edu</a><br>
-          110 Westwood Plaza <br>
-        Los Angeles, CA 90095
-        </p>
-<!--         <p><a href="https://ucla.box.com/s/jysppt2n0l9dx82lnrh4qhpf2tp12q1c" target = "_self">CV</a><br> -->
-       <a href="teaching.html" target="_self">Teaching</a> <br>
-       <a href="https://scholar.google.com/citations?user=GTinOuUAAAAJ&hl=en" target="_self">Google Scholar</a> <br> </p>
-          </header>
-      
-      <section>
-      <h1>Welcome! </h1>
-        <p>I am an Assistant Professor of Strategy at <a href="https://www.anderson.ucla.edu/faculty-and-research/strategy" >UCLA</a>, where my research explores the intersection of innovation, entrepreneurship and strategy. I actively bridge research and practice as a faculty affiliate of the <a href="https://www.anderson.ucla.edu/about/centers/price-center-for-entrepreneurship-and-innovation"> Price Center for Entrepreneurship & Innovation </a> and the <a href="https://www.anderson.ucla.edu/about/centers/easton-technology-management-center">Easton Technology Management Center</a>. 
-          
-        <p>My current work focuses on the role of metrics in shaping firm innovation. I also study the entrepreneurial strategy choices that high-growth startup founders encounter. </p>
-        
-        <p>I received my PhD and SM from <a href="https://mitsloan.mit.edu/faculty/academic-groups/ties/about-us" >MIT</a>, and a BCom and BA from <a href = "https://smith.queensu.ca/index.php" >Queen's University</a>. Prior to graduate school, I co-founded an education software startup (out of a leading Canadian <a href ="https://www.nextcanada.com/next-36/">entrepreneurship program</a> and <a href = "https://www.creativedestructionlab.com/">accelerator</a>), worked in venture capital in <a href ="https://relayventures.com/">Toronto</a> and <a href="https://www.foundercollective.com/">Boston</a>, and conducted research at the <a href="https://www.isc.hbs.edu/Pages/default.aspx">Harvard Business School ISC</a>.</p>
-      
-    
-        <h1>Peer-Reviewed Publications </h1>
-<p><a href="https://pubsonline.informs.org/doi/abs/10.1287/stsc.2025.0490"> "A Familiar Face: Measuring Visual Similarity in Venture Capital." </a> 2026. <i>Strategy Science,</i> Forthcoming. <a href = "https://anderson-review.ucla.edu/that-silicon-valley-founder-reminds-me-of-his-vc/"> [Summary] </a> </p>
- <p> <a href="https://doi.org/10.1287/mnsc.2023.01987" target="_blank" rel="noopener noreferrer"> "Measurement for Dummies? Exploring the Role of Regulatory Metrics and Firm Strategy." </a> 2025. <i> Management Science</i>, Forthcoming. <a href = "https://anderson-review.ucla.edu/in-car-safety-why-some-companies-merely-meet-a-standard-and-others-exceed-it/"> [Summary] </a> </p>
-  <p><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/smj.3010?af=R" target="_blank" rel="noopener noreferrer"> "Foundations of Entrepreneurial Strategy" </a>(with Joshua Gans and Scott Stern). 2019. <i> Strategic Management Journal</i> 40(5): 736-756. 
-       </p>      
-         <h1> Working Papers</h1> 
-        <p><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6873962"> "Reversing the Herd: Binding Caps and the Direction of Innovation." </a><i>R&R</i> </p>
-        <p>"Measuring the Frontier: How Figures of Merit Shape Innovation."  </p>
-        <p> "Selling Science: The Role of Framing in the Market for Innovative Ideas" (with Melody Chang).</p>
-        <p><a href="https://arxiv.org/abs/2602.20946" target="_blank"> "Some Simple Economics of AGI" </a>(with Christian Catalini and Xiang Hui).</p>
-        
-        <h1>Other Writing</h1>
-        <p><a href="https://hbr.org/2025/06/what-gets-measured-ai-will-automate" target="_blank" rel="noopener noreferrer"> "What Gets Measured, AI Will Automate" </a>(with Christian Catalini and Kevin Zhang). 2025. <i> Harvard Business Review.</i> 
-        <br>
-        <p><a href="https://hbr.org/2024/08/the-race-to-dominate-stablecoins" target="_blank" rel="noopener noreferrer"> "The Race to Dominate Stablecoins" </a>(with Christian Catalini). 2024. <i> Harvard Business Review.</i> 
-        <br>
-        <p><a href="https://hbr.org/2023/01/do-crypto-prices-actually-mean-anything" target="_blank" rel="noopener noreferrer"> "Do Crypto Prices Actually Mean Anything?" </a>(with Christian Catalini). 2023. <i> Harvard Business Review.</i> 
-        <br>
-        <p>"Choosing a Customer" (with Joshua Gans and Scott Stern). MIT Sloan Teaching Note. <br>
-        <p> <a href = "https://ucla.box.com/s/j12fnngrq5ghvdw8gvbvplu7l8aztqcs" target="_blank" rel="noopener noreferrer"> "Avatech" </a> (with Scott Stern). MIT Sloan Teaching Case. <br>
-        <p> <a href = "https://ucla.box.com/s/r4mx8tqq896t1652msc76h3dkortl3f9" target="_blank" rel="noopener noreferrer">"Beepi" </a> (with Scott Stern). MIT Sloan Teaching Case.<br> 
-        <p><a href = "https://ucla.box.com/s/16g2vuftdqip1i5hg1ssnvdwe7pwcw4v" target="_blank" rel="noopener noreferrer"> "Bionym" </a> (with Scott Stern). MIT Sloan Teaching Case. <br>
-        <p> <a href = "https://ucla.box.com/s/q9knbnkb6onemuzvz4e2ldxsf368lb5w" target="_blank" rel="noopener noreferrer"> "Clover Food Labs" </a> (with Scott Stern). MIT Sloan Teaching Case.<br>
-        <p> <a href = "https://ucla.box.com/s/nu7kxltkza1h2dpc4xg29g7mwf2o2qda" target="_blank" rel="noopener noreferrer"> "Madaket" </a> (with Kenny Ching and Scott Stern). MIT Sloan Teaching Case. <br> 
-        <p> <a href = "https://ucla.box.com/s/vmfot7kx79z0uin5zjeeyg5tx9w03nlb" target="_blank" rel="noopener noreferrer"> "Ministry of Supply" </a> (with Scott Stern). MIT Sloan Teaching Case. <br> 
-        <p> <small> <a href="https://www.entrepreneurial-strategy.net/" target="_blank" rel="noopener noreferrer"> [ More Entrepreneurial Strategy Cases, Homework and Slides Available Here ]</small></a></p>
+</head>
+<body>
+<div class="wrapper">
+  <aside>
+    <h1>Jane Wu</h1>
+    <p class="role">Assistant Professor<br>UCLA Anderson</p>
+    <img src="wu_square.jpg" alt="Portrait of Jane Wu">
+    <p class="contact">
+      <a href="mailto:jane.wu@anderson.ucla.edu">jane.wu (a) anderson.ucla.edu</a><br>
+      110 Westwood Plaza<br>
+      Los Angeles, CA 90095
+    </p>
+    <nav>
+      <a href="#publications">Peer-Reviewed Publications</a>
+      <a href="#working-papers">Working Papers</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#business-writing">Business Writing</a>
+      <a class="nav-sep" href="https://scholar.google.com/citations?user=GTinOuUAAAAJ&amp;hl=en">Google Scholar</a>
+    </nav>
+  </aside>
 
-        <p><br><small> If you've made it this far, check out these neat metrics: <a href="https://alum.mit.edu/slice/mit-recalibrate-smoot" title="Smoot" target="_blank" rel="noopener noreferrer">smoot</a>, <a href="https://www.theatlantic.com/technology/archive/2013/10/computing-power-used-to-be-measured-in-kilo-girls/280633/">kilo-girl</a> and <a href="https://en.wikipedia.org/wiki/Micromort">micromort</a>.<br>
-          And for my fellow Canucks, <a href="https://i.redd.it/ud4fkbvs34161.png" target="_blank" rel="noopener noreferrer">this one's for you!</a></small></p>
-      </section>
-      <footer>
-        <p><small>using <a href="https://github.com/orderedlist/minimal" target="_blank" rel="noopener noreferrer">minimal</a></small></p>
-      </footer>
-    </div>
+  <main>
+    <h2>Welcome!</h2>
+    <p>I am an Assistant Professor of Strategy at <a href="https://www.anderson.ucla.edu/faculty-and-research/strategy">UCLA</a>, where I study how measurement shapes innovation and entrepreneurship. When a technology is new, there is often no agreed-upon way to gauge quality or progress. My research examines how the metrics we choose in these settings steer what firms build, what investors back, and which directions of innovation get pursued at all. In nascent markets, deciding <em>what</em> to measure is one of the most consequential strategic choices there is.</p>
+    <p>My work spans regulatory metrics and firm strategy, the figures of merit that define technological frontiers, and how founders and investors evaluate one another when hard data is scarce. I actively bridge research and practice as a faculty affiliate of the <a href="https://www.anderson.ucla.edu/about/centers/price-center-for-entrepreneurship-and-innovation">Price Center for Entrepreneurship &amp; Innovation</a> and the <a href="https://www.anderson.ucla.edu/about/centers/easton-technology-management-center">Easton Technology Management Center</a>.</p>
+    <p>I received my PhD and SM from <a href="https://mitsloan.mit.edu/faculty/academic-groups/ties/about-us">MIT</a>, and a BCom and BA from <a href="https://smith.queensu.ca/index.php">Queen&rsquo;s University</a>. Prior to graduate school, I co-founded an education software startup (out of a leading Canadian <a href="https://www.nextcanada.com/next-36/">entrepreneurship program</a> and <a href="https://www.creativedestructionlab.com/">accelerator</a>), worked in venture capital in <a href="https://relayventures.com/">Toronto</a> and <a href="https://www.foundercollective.com/">Boston</a>, and conducted research at the <a href="https://www.isc.hbs.edu/Pages/default.aspx">Harvard Business School ISC</a>.</p>
 
-     </section>
+    <h2 id="publications">Peer-Reviewed Publications</h2>
+    <ul class="pubs">
+      <li><a href="https://pubsonline.informs.org/doi/abs/10.1287/stsc.2025.0490">&ldquo;A Familiar Face: Measuring Visual Similarity in Venture Capital.&rdquo;</a> 2026. <span class="venue">Strategy Science</span>, forthcoming. <a class="note" href="https://anderson-review.ucla.edu/that-silicon-valley-founder-reminds-me-of-his-vc/">[Summary]</a></li>
+      <li><a href="https://doi.org/10.1287/mnsc.2023.01987">&ldquo;Measurement for Dummies? Exploring the Role of Regulatory Metrics and Firm Strategy.&rdquo;</a> 2025. <span class="venue">Management Science</span>, forthcoming. <a class="note" href="https://anderson-review.ucla.edu/in-car-safety-why-some-companies-merely-meet-a-standard-and-others-exceed-it/">[Summary]</a></li>
+      <li><a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/smj.3010?af=R">&ldquo;Foundations of Entrepreneurial Strategy&rdquo;</a> (with Joshua Gans and Scott Stern). 2019. <span class="venue">Strategic Management Journal</span> 40(5): 736&ndash;756.</li>
+    </ul>
 
-    
-    <script src="javascripts/scale.fix.js"></script>
-  </body>
+    <h2 id="working-papers">Working Papers</h2>
+    <ul class="pubs">
+      <li><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6873962">&ldquo;Reversing the Herd: Binding Caps and the Direction of Innovation.&rdquo;</a> <span class="venue">R&amp;R</span></li>
+      <li>&ldquo;Measuring the Frontier: How Figures of Merit Shape Innovation.&rdquo;</li>
+      <li>&ldquo;Selling Science: The Role of Framing in the Market for Innovative Ideas&rdquo; (with Melody Chang).</li>
+      <li><a href="https://arxiv.org/abs/2602.20946">&ldquo;Some Simple Economics of AGI&rdquo;</a> (with Christian Catalini and Xiang Hui).</li>
+    </ul>
+
+    <h2 id="teaching">Teaching</h2>
+    <p>I teach entrepreneurship &mdash; both the general skills to start a company in any sector, and a specialized 2nd-year capstone focused on deep tech (aka <a href="https://engine.xyz/news/what-is-tough-tech">&ldquo;tough tech&rdquo;</a>). It&rsquo;s one of the best parts of my job, and I&rsquo;m thrilled to support my students as they launch businesses in sectors from beverages to beauty to AI-driven software &mdash; and even a castle rental service! You can read more about why I view my role as giving students <a href="https://www.anderson.ucla.edu/news-and-events/confidence-innovate">the confidence to bet on themselves here</a>.</p>
+
+    <h3>MGMT 295A &mdash; Entrepreneurship and Venture Initiation</h3>
+    <p class="course-meta">UCLA Anderson MBA &middot; <a href="https://www.anderson.ucla.edu/about/centers/price-center-for-entrepreneurship-and-innovation">Price Center</a><br>
+    Upcoming: Winter 2027 &middot; Past: Winter 2023, Spring 2024, Winter 2025, Fall 2025<br>
+    <a href="https://poetsandquants.com/2026/03/14/2025-most-disruptive-mba-startups-maxwell-schweighauser-ucla-anderson/">A star example of an EVI-founded startup!</a></p>
+    <details>
+      <summary>Course description</summary>
+      <p>1 out of 3 of you will be your own boss at some point in your life &mdash; and that doesn&rsquo;t include those of you that will join, invest in, or advise a startup, small business or spin-off! Whether you already have a startup pitch deck, a side hustle or just an inkling that you&rsquo;d like to try one day, this class will equip you with a research-backed toolkit to help you take an idea and build it into an impactful company. The course consists of case discussions, lectures, guest speakers and a course-long startup project.</p>
+    </details>
+    <details>
+      <summary>Class testimonials</summary>
+      <blockquote>&ldquo;It&rsquo;s the best course I&rsquo;ve taken&hellip; the final pitches were impressive and the result was a big confidence boost for me.&rdquo;</blockquote>
+      <blockquote>&ldquo;I would recommend this class to everyone in the MBA program!&rdquo;</blockquote>
+      <blockquote>&ldquo;Presenting my business idea formally in the classroom has been one of the best experiences of my MBA journey so far.&rdquo;</blockquote>
+    </details>
+    <img class="course-photo" src="evi_small.jpg" alt="Entrepreneurship and Venture Initiation class">
+
+    <h3>MGMT 274A &mdash; Tough Tech Commercialization Capstone (ATMC)</h3>
+    <p class="course-meta">UCLA Anderson MBA (2nd year only, max 20 spots per cohort)<br>
+    Upcoming: Fall 2026&ndash;Winter 2027 &middot; Past: Fall 2025&ndash;Winter 2026</p>
+    <details>
+      <summary>Course description</summary>
+      <p>Many of the most pressing problems we face today need ambitious, deep technology or science to make progress. Anchored in the principles of innovation and technology strategy, this capstone brings together the bright business minds of Anderson MBAs with high-potential inventions coming out of labs at UCLA and in Southern California to help unlock the lab-to-market bottleneck &mdash; moving the needle on technology, market, regulatory, scale, or financing risk.</p>
+    </details>
+    <img class="course-photo" src="ttc_small.jpg" alt="Tough Tech Commercialization Capstone class">
+
+    <p class="note">Interested in a business PhD? Visit <a href="https://businessphdwiki.com/doku.php">here</a> and <a href="https://phdproject.org/">here</a>!</p>
+
+    <h2 id="business-writing">Business Writing</h2>
+    <ul class="pubs">
+      <li><a href="https://hbr.org/2025/06/what-gets-measured-ai-will-automate">&ldquo;What Gets Measured, AI Will Automate&rdquo;</a> (with Christian Catalini and Kevin Zhang). 2025. <span class="venue">Harvard Business Review</span>.</li>
+      <li><a href="https://hbr.org/2024/08/the-race-to-dominate-stablecoins">&ldquo;The Race to Dominate Stablecoins&rdquo;</a> (with Christian Catalini). 2024. <span class="venue">Harvard Business Review</span>.</li>
+      <li><a href="https://hbr.org/2023/01/do-crypto-prices-actually-mean-anything">&ldquo;Do Crypto Prices Actually Mean Anything?&rdquo;</a> (with Christian Catalini). 2023. <span class="venue">Harvard Business Review</span>.</li>
+      <li>&ldquo;Choosing a Customer&rdquo; (with Joshua Gans and Scott Stern). MIT Sloan Teaching Note.</li>
+      <li><a href="https://ucla.box.com/s/j12fnngrq5ghvdw8gvbvplu7l8aztqcs">&ldquo;Avatech&rdquo;</a> (with Scott Stern). MIT Sloan Teaching Case.</li>
+      <li><a href="https://ucla.box.com/s/r4mx8tqq896t1652msc76h3dkortl3f9">&ldquo;Beepi&rdquo;</a> (with Scott Stern). MIT Sloan Teaching Case.</li>
+      <li><a href="https://ucla.box.com/s/16g2vuftdqip1i5hg1ssnvdwe7pwcw4v">&ldquo;Bionym&rdquo;</a> (with Scott Stern). MIT Sloan Teaching Case.</li>
+      <li><a href="https://ucla.box.com/s/q9knbnkb6onemuzvz4e2ldxsf368lb5w">&ldquo;Clover Food Labs&rdquo;</a> (with Scott Stern). MIT Sloan Teaching Case.</li>
+      <li><a href="https://ucla.box.com/s/nu7kxltkza1h2dpc4xg29g7mwf2o2qda">&ldquo;Madaket&rdquo;</a> (with Kenny Ching and Scott Stern). MIT Sloan Teaching Case.</li>
+      <li><a href="https://ucla.box.com/s/vmfot7kx79z0uin5zjeeyg5tx9w03nlb">&ldquo;Ministry of Supply&rdquo;</a> (with Scott Stern). MIT Sloan Teaching Case.</li>
+      <li class="extra"><span class="note"><a href="https://www.entrepreneurial-strategy.net/">[ More Entrepreneurial Strategy cases, homework and slides available here ]</a></span></li>
+    </ul>
+
+    <footer>
+      <p>If you&rsquo;ve made it this far, check out these neat metrics: <a href="https://alum.mit.edu/slice/mit-recalibrate-smoot">smoot</a>, <a href="https://www.theatlantic.com/technology/archive/2013/10/computing-power-used-to-be-measured-in-kilo-girls/280633/">kilo-girl</a> and <a href="https://en.wikipedia.org/wiki/Micromort">micromort</a>.<br>
+      And for my fellow Canucks, <a href="https://i.redd.it/ud4fkbvs34161.png">this one&rsquo;s for you!</a></p>
+    </footer>
+  </main>
+</div>
+</body>
 </html>
