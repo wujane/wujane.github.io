@@ -1,0 +1,1753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Spin a classroom globe, land on a country you have probably never heard of, and find the Los Angeles restaurant where you can eat its food.">
+<meta property="og:title" content="Plate Tectonics">
+<meta property="og:description" content="Spin the globe. Eat the world. 53 countries, and somewhere in LA that cooks each one.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌍%3C/text%3E%3C/svg%3E">
+<style>:root{color-scheme:light}body{margin:0;padding:0}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Plate Tectonics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Karla:wght@400;500;700;800&display=swap">
+
+<style>
+  /* One light palette on white — this page keeps the same face in every theme. */
+  :root {
+    color-scheme: light;
+
+    --paper:      #FFFFFF;
+    --surface:    #FFFFFF;
+    --ink:        #1A2422;
+    --ink-2:      #55625F;
+    --ink-3:      #8B9794;
+    --rule:       #E3E8E6;
+
+    --mango:      #F2A03C;
+    --mango-ink:  #97590A;
+    --mango-lit:  #FFC477;
+    --mango-wash: rgba(242, 160, 60, 0.13);
+
+    --mint:       #2FB093;
+    --mint-ink:   #0E6A56;
+    --mint-wash:  rgba(47, 176, 147, 0.10);
+
+    --pin:        #D83E27;
+    --pin-ink:    #A82D1A;
+    --pin-wash:   rgba(216, 62, 39, 0.08);
+
+    --sky:        #4F8FD6;
+    --sky-ink:    #1E5490;
+    --sky-wash:   rgba(79, 143, 214, 0.10);
+
+    --shadow:     rgba(26, 36, 34, 0.13);
+
+    --display: "Fredoka", "Trebuchet MS", Verdana, sans-serif;
+    --body:    "Karla", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-inline: 22px;
+    padding-block: 36px 52px;
+  }
+
+  .label {
+    font-family: var(--body);
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead { display: flex; flex-direction: column; gap: 10px; }
+
+  .wordmark {
+    margin: 0 0 2px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: var(--mango-ink);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(36px, 6.4vw, 58px);
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  h1 .swap { color: var(--mango-ink); }
+
+  .standfirst {
+    margin: 0;
+    max-width: 52ch;
+    color: var(--ink-2);
+    font-size: 17.5px;
+  }
+
+  /* ---------- main split ---------- */
+
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 52px;
+    align-items: start;
+    padding-block: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-block: 28px; }
+  }
+
+  /* ---------- globe ---------- */
+
+  .globe-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 28px;
+  }
+
+  @media (max-width: 900px) { .globe-col { position: static; } }
+
+  .globe-frame {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1.16;
+    margin-inline: auto;
+  }
+
+  #globe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  #globe:active { cursor: grabbing; }
+  #globe:focus-visible { outline: 3px solid var(--mango); outline-offset: 4px; border-radius: 12px; }
+
+  .globe-note {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    text-align: center;
+    padding: 34px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    border: 2px dashed var(--rule);
+    border-radius: 24px;
+  }
+
+  .globe-fallback .globe-note { display: grid; }
+  .globe-fallback #globe { display: none; }
+
+  .controls { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+
+  #spin {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 20px;
+    color: #2A1704;
+    background: var(--mango);
+    border: none;
+    border-radius: 999px;
+    padding: 17px 46px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--mango-ink);
+    transition: transform 120ms ease, box-shadow 120ms ease, background-color 140ms ease;
+  }
+
+  #spin:hover:not(:disabled) { background: var(--mango-lit); }
+
+  #spin:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--mango-ink);
+  }
+
+  #spin:disabled { opacity: 0.55; cursor: default; }
+  #spin:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  .hint { margin: 0; font-size: 13.5px; color: var(--ink-3); }
+
+  /* ---------- dossier ---------- */
+
+  .dossier { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+  .dossier-head { display: flex; flex-direction: column; gap: 4px; }
+
+  .country {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(34px, 5.4vw, 50px);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .pop { animation: pop 420ms cubic-bezier(.2,1.5,.4,1) both; }
+
+  @keyframes pop {
+    from { transform: scale(0.88) translateY(6px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pills li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    padding: 9px 16px;
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 16px;
+  }
+
+  .pill-label {
+    font-weight: 800;
+    font-size: 10.5px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .pill-value {
+    font-weight: 700;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- tinted panels ---------- */
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 22px;
+    border-radius: 22px;
+  }
+
+  .panel-facts { background: var(--mint-wash); }
+  .panel-facts .label { color: var(--mint-ink); }
+
+  .panel-dish { background: var(--mango-wash); }
+  .panel-dish .label { color: var(--mango-ink); }
+
+  .facts-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .facts-list li {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    font-size: 16.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .facts-list .dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: #05221C;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 26px;
+    text-align: center;
+  }
+
+  .panel-dish p {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 1.35;
+    max-width: 34ch;
+  }
+
+  /* ---------- places ---------- */
+
+  .places-block { display: flex; flex-direction: column; gap: 10px; }
+  .places { display: flex; flex-direction: column; gap: 8px; }
+
+  .place {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2px 16px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--rule);
+    border-radius: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 140ms ease, transform 140ms ease;
+  }
+
+  .place:hover, .place:focus-visible { border-color: var(--mango); transform: translateY(-1px); }
+  .place:focus-visible { outline: 3px solid var(--mango); outline-offset: 2px; }
+
+  .place-name {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .place-area { grid-column: 1; font-size: 13.5px; color: var(--ink-3); }
+
+  .place-go {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-weight: 800;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--pin-ink);
+    white-space: nowrap;
+  }
+
+  /* ---------- pop quiz ---------- */
+
+  .quiz {
+    background: var(--sky-wash);
+    border-radius: 26px;
+    padding: 26px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 34px;
+  }
+
+  .quiz .label { color: var(--sky-ink); }
+
+  .quiz-intro {
+    margin: 0;
+    max-width: 50ch;
+    color: var(--ink-2);
+    font-size: 16px;
+  }
+
+  .quiz-start, .quiz-again {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 17px;
+    color: #FFFFFF;
+    background: var(--sky);
+    border: none;
+    border-radius: 999px;
+    padding: 13px 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--sky-ink);
+    transition: transform 120ms ease, box-shadow 120ms ease, filter 140ms ease;
+  }
+
+  .quiz-start:hover, .quiz-again:hover { filter: brightness(1.07); }
+
+  .quiz-start:active, .quiz-again:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 var(--sky-ink);
+  }
+
+  .quiz-start:focus-visible, .quiz-again:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+  .quiz-body { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+
+  .quiz-q {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(20px, 2.6vw, 26px);
+    line-height: 1.25;
+    max-width: 34ch;
+  }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+  .opt {
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.45;
+    text-align: left;
+    color: var(--ink);
+    background: var(--surface);
+    border: 2px solid var(--rule);
+    border-radius: 18px;
+    padding: 15px 18px;
+    cursor: pointer;
+    transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+  }
+
+  .opt:hover:not(:disabled) { border-color: var(--sky); transform: translateY(-1px); }
+  .opt:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .opt:disabled { cursor: default; }
+
+  .opt.is-right { border-color: var(--mint); background: var(--mint-wash); font-weight: 700; }
+  .opt.is-wrong { border-color: var(--pin); background: var(--pin-wash); opacity: 0.8; }
+
+  .quiz-feedback {
+    margin: 0;
+    min-height: 1.5em;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink-2);
+  }
+
+  .quiz-feedback.good { color: var(--mint-ink); }
+  .quiz-feedback.bad  { color: var(--pin-ink); }
+
+  /* the present that pops open when you get it right */
+
+  .present { width: 132px; height: 118px; position: relative; margin: 2px auto 0; }
+
+  .present-box {
+    position: absolute;
+    left: 12px;
+    bottom: 0;
+    width: 108px;
+    height: 78px;
+    border-radius: 12px;
+    background: var(--mango);
+    box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  .present-box::after,
+  .present-lid::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    margin-left: -9px;
+    background: var(--mint);
+    border-radius: 3px;
+  }
+
+  .present-lid {
+    position: absolute;
+    left: 0;
+    top: 34px;
+    width: 132px;
+    height: 30px;
+    border-radius: 10px;
+    background: var(--mango-lit);
+    transform-origin: 50% 100%;
+    transition: transform 520ms cubic-bezier(.2, 1.4, .4, 1);
+  }
+
+  .bow {
+    position: absolute;
+    left: 50%;
+    top: -17px;
+    width: 42px;
+    height: 24px;
+    margin-left: -21px;
+    border: 6px solid var(--mint);
+    border-bottom: none;
+    border-radius: 50% 50% 0 0;
+  }
+
+  .present.open .present-lid { transform: translateY(-64px) rotate(-16deg); }
+  .present.open .present-box { animation: squish 520ms ease; }
+
+  @keyframes squish {
+    0%   { transform: scaleY(1)    scaleX(1); }
+    35%  { transform: scaleY(0.88) scaleX(1.08); }
+    100% { transform: scaleY(1)    scaleX(1); }
+  }
+
+  #confetti {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 60;
+  }
+
+  /* ---------- foot ---------- */
+
+  .colophon {
+    margin: 0;
+    max-width: 62ch;
+    padding-top: 26px;
+    border-top: 1.5px solid var(--rule);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--ink-3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="wordmark">Plate Tectonics</p>
+    <h1>Spin the globe.<br><span class="swap">Eat the world.</span></h1>
+    <p class="standfirst">Give it a flick and see where it stops. Every country on this globe is one you can
+      actually eat in Los Angeles — and every one is somewhere you'd never think to get dinner from.</p>
+  </header>
+
+  <main class="stage">
+
+    <div class="globe-col">
+      <div class="globe-frame" id="globeFrame">
+        <canvas id="globe" tabindex="0" role="img" aria-label="A globe you can drag to spin"></canvas>
+        <div class="globe-note" id="globeNote">
+          The map didn't load this time. Everything else still works — press the button for a new country.
+        </div>
+      </div>
+      <div class="controls">
+        <button id="spin" type="button">Spin the globe</button>
+        <p class="hint" id="hint">You can also grab the globe and turn it yourself</p>
+      </div>
+    </div>
+
+    <section class="dossier" id="dossier" aria-live="polite">
+      <div class="dossier-head">
+        <p class="label">You landed on</p>
+        <h2 class="country" id="d-country">—</h2>
+      </div>
+
+      <ul class="pills">
+        <li><span class="pill-label">Capital city</span><span class="pill-value" id="d-capital">—</span></li>
+        <li><span class="pill-label">Find it here</span><span class="pill-value" id="d-coords">—</span></li>
+        <li><span class="pill-label">Say hello</span><span class="pill-value" id="d-hello">—</span></li>
+      </ul>
+
+      <div class="panel panel-facts">
+        <span class="label">Two things you didn't know</span>
+        <ul class="facts-list" id="d-facts"></ul>
+      </div>
+
+      <div class="panel panel-dish">
+        <span class="label">Order this</span>
+        <p id="d-dish">—</p>
+      </div>
+
+      <div class="places-block">
+        <span class="label">Eat it in LA</span>
+        <div class="places" id="d-places"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="quiz" id="quiz">
+    <span class="label">Pop quiz</span>
+    <p class="quiz-intro" id="quizIntro">Only if you feel like it. One question about the country you just landed on —
+      the answer is somewhere up above.</p>
+    <button class="quiz-start" id="quizStart" type="button">Quiz me!</button>
+
+    <div class="quiz-body" id="quizBody" hidden>
+      <p class="quiz-q" id="quizQ"></p>
+      <div class="quiz-options" id="quizOptions"></div>
+      <p class="quiz-feedback" id="quizFeedback" aria-live="polite"></p>
+      <div class="present" id="present" hidden aria-hidden="true">
+        <div class="present-box"></div>
+        <div class="present-lid"><span class="bow"></span></div>
+      </div>
+      <button class="quiz-again" id="quizAgain" type="button" hidden>Ask me another</button>
+    </div>
+  </section>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <footer>
+    <p class="colophon">Grown-ups: restaurants move, close and change hands. Tap a name to open it in Maps and check
+      before you drive. Each country is marked at roughly its middle, with a ring around it so the really small ones
+      are still easy to spot.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ------------------------------------------------------------------
+     The atlas. lonlat = approximate country centre, used to aim the spin.
+     ------------------------------------------------------------------ */
+
+  var ATLAS = [
+    { iso: "UZB", name: "Uzbekistan", capital: "Tashkent", lonlat: [64.6, 41.4], hello: "Salom",
+      facts: [
+        "It is one of only two countries on Earth that is doubly landlocked — you'd have to cross two whole countries to reach any sea.",
+        "The city of Samarkand was a rest stop on the Silk Road for 2,000 years, and its domes are covered in bright blue tiles."
+      ],
+      dish: "Plov — rice slow-cooked with lamb, carrots and cumin in one enormous pan.",
+      places: [{ name: "Zira Uzbek Kitchen", area: "Melrose Ave, Fairfax" }] },
+
+    { iso: "MNG", name: "Mongolia", capital: "Ulaanbaatar", lonlat: [103.8, 46.9], hello: "Sain baina uu",
+      facts: [
+        "Ulaanbaatar is the coldest capital city in the world. In winter it is colder outside than inside a freezer.",
+        "Plenty of families still live in round felt tents called gers, which can be taken apart and packed onto a truck in about an hour."
+      ],
+      dish: "Khuushuur — beef pockets fried until the edges go crisp and blistered.",
+      places: [{ name: "Arag Mongolian Cuisine", area: "Wilshire Blvd, Koreatown" }] },
+
+    { iso: "GEO", name: "Georgia", capital: "Tbilisi", lonlat: [43.4, 42.3], hello: "Gamarjoba",
+      facts: [
+        "People have been making wine here for about 8,000 years — longer than anywhere else — in clay jars buried underground.",
+        "Georgian dumplings have a twisted knob on top that you are not supposed to eat. It's a handle."
+      ],
+      dish: "Khachapuri — a bread boat full of melted cheese with a runny egg you stir in yourself.",
+      places: [{ name: "Saqartvelo Georgian Cuisine", area: "Glendale" }, { name: "Havlabar", area: "Glendale" }] },
+
+    { iso: "ARM", name: "Armenia", capital: "Yerevan", lonlat: [45.0, 40.1], hello: "Barev",
+      facts: [
+        "Armenian has its own alphabet, invented in the year 405, with 39 letters that look like nothing else on Earth.",
+        "Mount Ararat is Armenia's national symbol and sits on its coat of arms — even though the mountain is over the border in Türkiye."
+      ],
+      dish: "Lahmajoun — paper-thin flatbread under spiced meat, squeezed with lemon and rolled up like a wrap.",
+      places: [{ name: "Carousel Restaurant", area: "Glendale" }] },
+
+    { iso: "ETH", name: "Ethiopia", capital: "Addis Ababa", lonlat: [39.6, 9.1], hello: "Selam",
+      facts: [
+        "Ethiopia uses its own calendar with 13 months, and it is about seven years behind the one on your wall.",
+        "Coffee was discovered here. The story goes that a goat herder noticed his goats dancing after eating red berries."
+      ],
+      dish: "Doro wat on injera — a slow red chicken stew you scoop up with spongy sourdough bread instead of a fork.",
+      places: [{ name: "Lalibela Ethiopian", area: "Little Ethiopia, Fairfax" }, { name: "Meals by Genet", area: "Little Ethiopia, Fairfax" }] },
+
+    { iso: "ERI", name: "Eritrea", capital: "Asmara", lonlat: [39.0, 15.2], hello: "Selam",
+      facts: [
+        "The capital, Asmara, is a protected World Heritage city — a whole town of swooping 1930s cinemas and petrol stations.",
+        "Its mountain railway climbs from the sea to 7,000 feet up, on rails so twisty the train is slower than a bicycle."
+      ],
+      dish: "Zigni — a fiery beef stew full of berbere spice, eaten with injera.",
+      places: [{ name: "Flavors From Afar", area: "Little Ethiopia, Fairfax" }] },
+
+    { iso: "MMR", name: "Myanmar", capital: "Naypyidaw", lonlat: [96.0, 21.0], hello: "Mingalaba",
+      facts: [
+        "Here tea is something you eat, not just drink — the leaves are fermented and tossed into a crunchy salad.",
+        "People paint swirls of thanaka, a pale yellow paste ground from tree bark, on their cheeks as sunscreen."
+      ],
+      dish: "Lahpet thoke — tea leaf salad, sour and salty and packed with fried beans and peanuts.",
+      places: [{ name: "Daw Yee Myanmar Corner", area: "Monterey Park" }, { name: "Burmese Please", area: "" }] },
+
+    { iso: "LKA", name: "Sri Lanka", capital: "Sri Jayawardenepura Kotte", lonlat: [80.7, 7.9], hello: "Ayubowan",
+      facts: [
+        "The capital's name is longer than the country's, and almost nobody can say it in one breath.",
+        "The island is shaped like a teardrop, and it is where cinnamon was first peeled off trees and sold."
+      ],
+      dish: "Kottu roti — flatbread chopped up on a hot griddle with such a clatter you can hear it from the street.",
+      places: [{ name: "Kurrypinch", area: "East Hollywood" }, { name: "Apey Kade", area: "Tarzana" }] },
+
+    { iso: "NPL", name: "Nepal", capital: "Kathmandu", lonlat: [84.1, 28.4], hello: "Namaste",
+      facts: [
+        "It has the only flag in the world that isn't a rectangle — it's two stacked triangles with a moon and a sun.",
+        "Eight of the ten tallest mountains on Earth are in Nepal, including Everest."
+      ],
+      dish: "Momo — pleated steamed dumplings with a tomato and sesame sauce for dunking.",
+      places: [{ name: "Momo Souls", area: "Palms" }, { name: "Tara's Himalayan Cuisine", area: "Culver City" }] },
+
+    { iso: "KHM", name: "Cambodia", capital: "Phnom Penh", lonlat: [104.9, 12.6], hello: "Suostei",
+      facts: [
+        "Long Beach is home to the biggest Cambodian community outside Cambodia. The neighbourhood is called Cambodia Town.",
+        "Angkor Wat is the largest religious building in the world, and Cambodia's is the only national flag with a building on it."
+      ],
+      dish: "Kuy teav — a pork and noodle soup that Cambodians eat for breakfast.",
+      places: [{ name: "Phnom Penh Noodle Shack", area: "Cambodia Town, Long Beach" }, { name: "Sophy's", area: "Long Beach" }] },
+
+    { iso: "LAO", name: "Laos", capital: "Vientiane", lonlat: [102.5, 19.9], hello: "Sabaidee",
+      facts: [
+        "Laos eats more sticky rice per person than anywhere on the planet, and it's eaten with fingers, rolled into a ball.",
+        "The Plain of Jars is a field scattered with thousands of giant stone jars, and nobody is sure who made them."
+      ],
+      dish: "Laap with sticky rice — minced meat tossed with herbs, lime and toasted ground rice.",
+      places: [{ name: "OWL OWL Thai Lao Street Food", area: "Long Beach" }] },
+
+    { iso: "AFG", name: "Afghanistan", capital: "Kabul", lonlat: [67.7, 33.9], hello: "Salaam",
+      facts: [
+        "Kabul is more than 3,500 years old. It was already an ancient city when Rome was brand new.",
+        "The deep blue stone lapis lazuli has been mined here for 6,000 years — it coloured the skies in Renaissance paintings."
+      ],
+      dish: "Kabuli pulao — rice crowned with sweet shredded carrots, raisins and almonds.",
+      places: [{ name: "Azeen's Afghani Restaurant", area: "Pasadena" }] },
+
+    { iso: "IDN", name: "Indonesia", capital: "Jakarta", lonlat: [113.9, -2.5], hello: "Apa kabar",
+      facts: [
+        "It is made of more than 17,000 islands, and people live on only about 6,000 of them.",
+        "Komodo dragons live here and nowhere else — the biggest lizards on Earth, up to ten feet long."
+      ],
+      dish: "Nasi goreng — sweet-soy fried rice with a fried egg draped over the top.",
+      places: [{ name: "Simpang Asia", area: "Palms" }] },
+
+    { iso: "MYS", name: "Malaysia", capital: "Kuala Lumpur", lonlat: [102.5, 4.2], hello: "Selamat pagi",
+      facts: [
+        "Home of the rafflesia, the largest single flower on Earth — nearly three feet across, and it smells like old meat.",
+        "The Petronas Towers were once the tallest buildings in the world, and they're joined by a bridge halfway up."
+      ],
+      dish: "Nasi lemak — coconut rice with peanuts, egg, cucumber and a spoonful of chilli sambal.",
+      places: [{ name: "Rasarumah", area: "Historic Filipinotown" }, { name: "Ipoh Kopitiam", area: "" }] },
+
+    { iso: "PHL", name: "Philippines", capital: "Manila", lonlat: [122.0, 12.9], hello: "Kumusta",
+      facts: [
+        "It's made of 7,641 islands, and the buses — jeepneys — are painted like rolling murals, no two the same.",
+        "The Philippine tarsier is a tiny primate with eyes as big as its brain, and it can turn its head almost all the way round."
+      ],
+      dish: "Adobo — chicken or pork braised in soy sauce, vinegar, garlic and bay leaves.",
+      places: [{ name: "Lasita", area: "Chinatown" }, { name: "Irenia", area: "Santa Ana" }] },
+
+    { iso: "TWN", name: "Taiwan", capital: "Taipei", lonlat: [121.0, 23.7], hello: "Nǐ hǎo",
+      facts: [
+        "Boba — bubble tea, with the chewy tapioca pearls — was invented here in the 1980s.",
+        "Taipei 101 has a giant golden ball hanging inside it that swings the other way to stop the building shaking in typhoons."
+      ],
+      dish: "Beef noodle soup — the unofficial national dish, argued over in every city.",
+      places: [{ name: "Pine & Crane", area: "Silver Lake" }] },
+
+    { iso: "THA", name: "Thailand", capital: "Bangkok", lonlat: [101.0, 15.9], hello: "Sawasdee",
+      facts: [
+        "Bangkok's full ceremonial name runs to 168 letters — the longest city name in the world.",
+        "Thailand is the only country in Southeast Asia that was never taken over by a European empire."
+      ],
+      dish: "Southern Thai curry — coconut, turmeric, and heat that really means it.",
+      places: [{ name: "Jitlada", area: "Thai Town, East Hollywood" }] },
+
+    { iso: "PAK", name: "Pakistan", capital: "Islamabad", lonlat: [69.3, 30.4], hello: "Adaab",
+      facts: [
+        "K2 is the second-highest mountain on Earth and much harder to climb than Everest — far fewer people have stood on top.",
+        "The Karakoram Highway is the highest paved road between two countries anywhere, at over 15,000 feet."
+      ],
+      dish: "Nihari — beef shank simmered all night long and eaten, traditionally, for breakfast.",
+      places: [{ name: "Al Noor Restaurant", area: "Northridge" }] },
+
+    { iso: "BGD", name: "Bangladesh", capital: "Dhaka", lonlat: [90.4, 23.8], hello: "Nomoshkar",
+      facts: [
+        "The Sundarbans here is the biggest mangrove forest on Earth, and its tigers swim between the islands.",
+        "Koreatown has its own Little Bangladesh, with street signs and everything, a few blocks along Third Street."
+      ],
+      dish: "Shorshe ilish — hilsa fish in a sharp mustard sauce, the dish Bangladeshis argue about most.",
+      places: [{ name: "Bangla Bazar & Restaurant", area: "Little Bangladesh, Koreatown" }, { name: "Roshona Bilash", area: "" }] },
+
+    { iso: "SGP", name: "Singapore", capital: "Singapore", lonlat: [103.8, 1.35], hello: "Selamat pagi",
+      facts: [
+        "It is a country that is also just one city — one of only three city-states left in the world.",
+        "Chewing gum is banned, and there are trees so tall they had to be built out of steel — the Supertrees."
+      ],
+      dish: "Hainanese chicken rice — poached chicken with rice cooked in its own broth.",
+      places: [{ name: "Singapore's Banana Leaf", area: "Original Farmers Market, Fairfax" }] },
+
+    { iso: "IRN", name: "Iran", capital: "Tehran", lonlat: [53.7, 32.4], hello: "Salaam",
+      facts: [
+        "The new year, Nowruz, starts at the exact moment spring begins, so the date shifts slightly every year.",
+        "Windmills were invented here more than 1,000 years ago, and some of the original ones still turn in the desert."
+      ],
+      dish: "Ghormeh sabzi — a deep green herb stew made sour with dried limes.",
+      places: [{ name: "Attari Sandwich Shop", area: "Westwood" }] },
+
+    { iso: "YEM", name: "Yemen", capital: "Sana'a", lonlat: [47.5, 15.6], hello: "Salaam alaikum",
+      facts: [
+        "On the island of Socotra grow dragon's blood trees, shaped like upside-down umbrellas, which exist nowhere else on Earth.",
+        "Shibam is a 500-year-old city of mud-brick tower blocks. People call it the Manhattan of the desert."
+      ],
+      dish: "Lamb mandi — rice and lamb smoked slowly in an oven dug into the ground.",
+      places: [{ name: "Mandi House", area: "" }] },
+
+    { iso: "TUR", name: "Türkiye", capital: "Ankara", lonlat: [35.2, 39.0], hello: "Merhaba",
+      facts: [
+        "Istanbul sits on two continents at once. You can take a ferry from Europe to Asia in twenty minutes.",
+        "In Cappadocia, people carved houses and whole churches into soft rock chimneys, plus underground cities eight storeys deep."
+      ],
+      dish: "Adana kebab — lamb minced by hand and grilled on a wide flat skewer.",
+      places: [{ name: "Adana Restaurant", area: "Glendale" }] },
+
+    { iso: "LBN", name: "Lebanon", capital: "Beirut", lonlat: [35.9, 33.9], hello: "Marhaba",
+      facts: [
+        "People have lived in Byblos for roughly 7,000 years without a break — one of the oldest cities anywhere.",
+        "The cedar tree on the flag can live over a thousand years. Some in the mountains were already old in Roman times."
+      ],
+      dish: "Mezze — not one dish but a whole table of little plates, all ordered at once.",
+      places: [{ name: "Marouch", area: "East Hollywood" }] },
+
+    { iso: "MAR", name: "Morocco", capital: "Rabat", lonlat: [-7.1, 31.8], hello: "Azul",
+      facts: [
+        "The mountain town of Chefchaouen is painted blue — every wall, every step, every doorway.",
+        "Goats here climb argan trees to eat the fruit. You'll see six of them standing in the branches at once."
+      ],
+      dish: "Tagine — stew cooked slowly under a cone-shaped clay lid that traps all the steam.",
+      places: [{ name: "Casablanca Moroccan Kitchens", area: "" }] },
+
+    { iso: "TUN", name: "Tunisia", capital: "Tunis", lonlat: [9.5, 33.9], hello: "Aslema",
+      facts: [
+        "The desert planet Tatooine in Star Wars was filmed here, and some of the sets are still standing in the sand.",
+        "This was Carthage — the city that sent Hannibal over the Alps with a herd of war elephants."
+      ],
+      dish: "Brik — a crackling thin pastry with a whole runny egg hiding inside.",
+      places: [{ name: "Moun of Tunis", area: "Hollywood" }] },
+
+    { iso: "NGA", name: "Nigeria", capital: "Abuja", lonlat: [8.7, 9.1], hello: "Sannu",
+      facts: [
+        "Nollywood makes more films every year than Hollywood does.",
+        "More than 500 languages are spoken in Nigeria — more than in almost any other country on Earth."
+      ],
+      dish: "Jollof rice — smoky tomato rice, and the subject of a long friendly argument with Ghana.",
+      places: [{ name: "Jagabans", area: "" }, { name: "Sumptuous African Restaurant", area: "Inglewood" }] },
+
+    { iso: "GHA", name: "Ghana", capital: "Accra", lonlat: [-1.0, 7.9], hello: "Akwaaba",
+      facts: [
+        "Lake Volta is the largest lake made by people anywhere in the world — you can't see across it.",
+        "Many Ghanaians carry a name for the day of the week they were born on. Kofi means a boy born on a Friday."
+      ],
+      dish: "Waakye — rice and beans cooked with dried millet leaves until the whole pot turns deep red.",
+      places: [{ name: "Airport Royal Cuisine", area: "" }] },
+
+    { iso: "SEN", name: "Senegal", capital: "Dakar", lonlat: [-14.5, 14.5], hello: "Nanga def",
+      facts: [
+        "Lac Rose is bright bubblegum pink, coloured by tiny algae that love extremely salty water.",
+        "Senegal is the westernmost country on mainland Africa — the very edge of the continent."
+      ],
+      dish: "Thieboudienne — fish, broken rice and vegetables cooked in one pot, the national dish.",
+      places: [{ name: "Two Hommés", area: "" }, { name: "Weaf Restaurant", area: "" }] },
+
+    { iso: "ZAF", name: "South Africa", capital: "Pretoria (one of three)", lonlat: [24.0, -29.0], hello: "Sawubona",
+      facts: [
+        "South Africa has three capital cities, which is two more than nearly every other country.",
+        "It has eleven official languages, and the national anthem switches between five of them as it goes."
+      ],
+      dish: "Bobotie — spiced minced beef baked under a golden layer of egg custard.",
+      places: [{ name: "Springbok Bar & Grill", area: "" }] },
+
+    { iso: "POL", name: "Poland", capital: "Warsaw", lonlat: [19.1, 51.9], hello: "Cześć",
+      facts: [
+        "A 700-year-old salt mine here has an entire cathedral carved out of salt, 300 feet underground, chandeliers included.",
+        "There is a forest where hundreds of pine trees all bend in the same sharp curve at the bottom, and nobody knows why."
+      ],
+      dish: "Pierogi — half-moon dumplings stuffed with potato and cheese, fried in butter.",
+      places: [{ name: "Warszawa", area: "Santa Monica" }, { name: "Polka Restaurant", area: "Eagle Rock" }] },
+
+    { iso: "BIH", name: "Bosnia and Herzegovina", capital: "Sarajevo", lonlat: [17.7, 44.0], hello: "Zdravo",
+      facts: [
+        "In Mostar there's a stone bridge 78 feet above the river, and people have been diving off it for 450 years.",
+        "Sarajevo hosted the Winter Olympics in 1984, and the abandoned bobsled track is still curling through the forest."
+      ],
+      dish: "Ćevapi — little grilled beef sausages stuffed into a puffy round flatbread with raw onion.",
+      places: [{ name: "Aroma Cafe", area: "Overland Ave" }, { name: "Rumors Cafe", area: "Encino" }] },
+
+    { iso: "HUN", name: "Hungary", capital: "Budapest", lonlat: [19.5, 47.2], hello: "Szia",
+      facts: [
+        "The Rubik's Cube was invented by a Hungarian professor, and it took him a whole month to solve his own puzzle.",
+        "Budapest sits on more than a hundred hot springs, and people play chess at floating boards in the steaming outdoor baths."
+      ],
+      dish: "Goulash — a deep red paprika beef soup, nothing like the stuff on school menus.",
+      places: [{ name: "Posto 896 Italian & Hungarian", area: "" }] },
+
+    { iso: "DNK", name: "Denmark", capital: "Copenhagen", lonlat: [9.5, 56.1], hello: "Hej",
+      facts: [
+        "Lego was invented here. The name comes from two Danish words, leg godt, meaning 'play well'.",
+        "Danes don't call them Danish pastries. They call them wienerbrød — 'Vienna bread' — because the recipe was brought in by Austrian bakers."
+      ],
+      dish: "Kringle — a giant pretzel-shaped pastry layered with butter and nougat.",
+      places: [{ name: "Copenhagen Pastry", area: "Culver City" }, { name: "Open Face", area: "" }] },
+
+    { iso: "SWE", name: "Sweden", capital: "Stockholm", lonlat: [15.0, 62.0], hello: "Tjena",
+      facts: [
+        "Sweden has a national day for cinnamon buns — the fourth of October — and people take it seriously.",
+        "Up in the far north, a hotel is rebuilt out of blocks of river ice every winter, then melts away in the spring."
+      ],
+      dish: "Swedish meatballs with lingonberry jam, and a kanelbulle — cinnamon bun — afterwards.",
+      places: [{ name: "Olson's Scandinavian Delicatessen", area: "" }] },
+
+    { iso: "UKR", name: "Ukraine", capital: "Kyiv", lonlat: [31.2, 48.4], hello: "Pryvit",
+      facts: [
+        "Ukraine grows more sunflowers than almost any country on Earth — whole horizons of them.",
+        "There's a 'Tunnel of Love', a train track where the trees have grown into a green archway two miles long."
+      ],
+      dish: "Varenyky and borscht — dumplings alongside a deep red beet soup with sour cream.",
+      places: [{ name: "Mom, Please Ukrainian Food", area: "" }] },
+
+    { iso: "PRT", name: "Portugal", capital: "Lisbon", lonlat: [-8.2, 39.4], hello: "Olá",
+      facts: [
+        "Portugal has had almost exactly the same borders since 1139 — the oldest in Europe.",
+        "Most of the world's cork comes from here, peeled off oak trees every nine years without hurting the tree."
+      ],
+      dish: "Pastel de nata — a custard tart with a blistered, scorched top and a crust that shatters.",
+      places: [{ name: "Natas Pastries", area: "Sherman Oaks" }] },
+
+    { iso: "TTO", name: "Trinidad and Tobago", capital: "Port of Spain", lonlat: [-61.2, 10.7], hello: "Wha' happenin'",
+      facts: [
+        "The steelpan, hammered out of old oil drums here, is one of the only brand-new instruments invented in the last century.",
+        "There's a lake made of natural asphalt you can walk across — the largest of its kind in the world."
+      ],
+      dish: "Doubles — two soft fried breads wrapped around curried chickpeas, eaten standing up.",
+      places: [{ name: "TriniStyle Cuisine", area: "Inglewood" }] },
+
+    { iso: "BRB", name: "Barbados", capital: "Bridgetown", lonlat: [-59.5, 13.2], hello: "Wuh gine on",
+      facts: [
+        "Flying fish really do glide out of the water here. They're on the coins and in the national dish.",
+        "Barbados is made of coral, not volcanic rock like its neighbours — it's a giant reef pushed up out of the sea."
+      ],
+      dish: "Cou-cou and flying fish — cornmeal and okra with the fish the island is named for.",
+      places: [{ name: "Bridgetown Roti", area: "Highland Park" }] },
+
+    { iso: "JAM", name: "Jamaica", capital: "Kingston", lonlat: [-77.3, 18.1], hello: "Wah gwaan",
+      facts: [
+        "Reggae was born here, and so was Usain Bolt — the fastest human ever timed.",
+        "Jamaica sent a bobsled team to the Winter Olympics in 1988, having never seen snow."
+      ],
+      dish: "Jerk chicken — rubbed with allspice and scotch bonnet, then smoked over pimento wood.",
+      places: [{ name: "Natraliart", area: "Mid-City" }] },
+
+    { iso: "GUY", name: "Guyana", capital: "Georgetown", lonlat: [-58.9, 4.9], hello: "Howdy",
+      facts: [
+        "It's the only country in South America where English is the official language.",
+        "Kaieteur Falls drops 741 feet in one single plunge — about four times the height of Niagara."
+      ],
+      dish: "Pepperpot — a dark, slow stew flavoured with cassareep, traditionally eaten at Christmas.",
+      places: [{ name: "A Taste of the Caribbean", area: "Hollywood" }] },
+
+    { iso: "VEN", name: "Venezuela", capital: "Caracas", lonlat: [-66.6, 6.4], hello: "Épale",
+      facts: [
+        "Angel Falls is the tallest waterfall on Earth — so tall the water turns to mist before it reaches the bottom.",
+        "Over Lake Maracaibo, lightning flashes almost every night for hours, around 260 nights a year."
+      ],
+      dish: "Arepas — grilled corn pockets split open and stuffed while still steaming.",
+      places: [{ name: "Chainsaw", area: "" }, { name: "Full Arepas", area: "" }] },
+
+    { iso: "COL", name: "Colombia", capital: "Bogotá", lonlat: [-74.3, 4.6], hello: "Quiubo",
+      facts: [
+        "More kinds of bird live here than in any other country on Earth.",
+        "One river is nicknamed the 'liquid rainbow' — for a few months each year its plants turn it red, yellow and green."
+      ],
+      dish: "Bandeja paisa — a platter of beans, rice, egg, avocado and fried plantain, built to feed a farm worker.",
+      places: [{ name: "La Fonda Antioqueña", area: "" }] },
+
+    { iso: "PER", name: "Peru", capital: "Lima", lonlat: [-75.0, -9.2], hello: "Rimaykullayki",
+      facts: [
+        "Peru grows over 4,000 kinds of potato — purple ones, blue ones, ones with stripes inside.",
+        "The Nazca Lines are giant animals scratched into the desert, so big you can only see them from the sky."
+      ],
+      dish: "Lomo saltado — beef stir-fried with onion and chips, invented by Chinese cooks in Lima.",
+      places: [{ name: "Mario's Peruvian & Seafood", area: "East Hollywood" }] },
+
+    { iso: "ARG", name: "Argentina", capital: "Buenos Aires", lonlat: [-63.6, -38.4], hello: "Che, hola",
+      facts: [
+        "Aconcagua, in the Andes here, is the tallest mountain anywhere outside Asia.",
+        "The biggest dinosaur ever found was dug up in Patagonia. It was longer than four school buses."
+      ],
+      dish: "Empanadas — baked pastries, and every province folds the edge differently to show what's inside.",
+      places: [{ name: "Carlitos Gardel", area: "Melrose" }] },
+
+    { iso: "CUB", name: "Cuba", capital: "Havana", lonlat: [-77.8, 21.5], hello: "¿Qué bolá?",
+      facts: [
+        "American cars from the 1950s still drive the streets, kept alive for seventy years by mechanics inventing their own parts.",
+        "The bee hummingbird lives only in Cuba and is the smallest bird in the world — about the size of your thumb."
+      ],
+      dish: "Ropa vieja — shredded beef in tomato and pepper, whose name means 'old clothes'.",
+      places: [{ name: "Versailles", area: "Culver City" }] },
+
+    { iso: "SLV", name: "El Salvador", capital: "San Salvador", lonlat: [-88.9, 13.8], hello: "¡Hola!",
+      facts: [
+        "It's the smallest country in Central America, and it has some of the best surfing waves in the world.",
+        "It's nicknamed the Land of Volcanoes — there are more than twenty, and some have bright turquoise lakes in the top."
+      ],
+      dish: "Pupusas — thick corn cakes stuffed with cheese and beans, served with pickled cabbage.",
+      places: [{ name: "Sarita's Pupusería", area: "Grand Central Market, Downtown" }] },
+
+    { iso: "GTM", name: "Guatemala", capital: "Guatemala City", lonlat: [-90.2, 15.8], hello: "Saqarik",
+      facts: [
+        "The money is named after a bird — the quetzal, whose tail is twice as long as the rest of it.",
+        "Every November, people fly paper kites up to 40 feet across over the cemeteries."
+      ],
+      dish: "Pepián — a dark stew thickened with toasted seeds and chillies, one of the country's oldest dishes.",
+      places: [{ name: "Guatemalteca Bakery & Restaurant", area: "" }] },
+
+    { iso: "BLZ", name: "Belize", capital: "Belmopan", lonlat: [-88.5, 17.2], hello: "Weh di go aan",
+      facts: [
+        "Just off the coast is the Great Blue Hole — a perfectly round underwater sinkhole a thousand feet across, easy to spot from space.",
+        "Belize made the world's first jaguar reserve, and more than half the country is still forest."
+      ],
+      dish: "Rice and beans with stewed chicken — and fry jacks, puffed-up pillows of fried dough, at breakfast.",
+      places: [{ name: "Tracey's Belizean Restaurant", area: "Western Ave, near USC" }, { name: "Little Belize", area: "" }] },
+
+    { iso: "DOM", name: "Dominican Republic", capital: "Santo Domingo", lonlat: [-70.2, 18.7], hello: "¿Qué lo que?",
+      facts: [
+        "It shares one island with Haiti — two countries, two languages, one piece of land.",
+        "Amber dug up here sometimes has whole insects trapped inside, some of them twenty million years old."
+      ],
+      dish: "Mangú — mashed green plantain topped with fried cheese, salami and onions.",
+      places: [{ name: "El Bacano", area: "" }] },
+
+    { iso: "ECU", name: "Ecuador", capital: "Quito", lonlat: [-78.2, -1.8], hello: "Buenas",
+      facts: [
+        "Ecuador is named after the equator, which runs right through it. You can stand with one foot in each half of the world.",
+        "The Galápagos Islands belong to Ecuador, and the giant tortoises there can live past a hundred years old."
+      ],
+      dish: "Encebollado — tuna and yuca soup with pickled onions, eaten for breakfast.",
+      places: [{ name: "Donde Angie Ecuadorian Food", area: "" }] },
+
+    { iso: "CHL", name: "Chile", capital: "Santiago", lonlat: [-71.5, -35.7], hello: "¿Cómo estái?",
+      facts: [
+        "The Atacama Desert is the driest place on Earth. Some weather stations there have never once recorded rain.",
+        "Chile is over 2,600 miles long but barely a hundred miles wide — a ribbon down the side of a continent."
+      ],
+      dish: "Empanada de pino — beef and onion with a black olive and half a boiled egg tucked inside.",
+      places: [{ name: "Rincón Chileno", area: "Melrose" }] },
+
+    { iso: "WSM", name: "Samoa", capital: "Apia", lonlat: [-172.1, -13.8], hello: "Talofa",
+      facts: [
+        "In 2011 Samoa skipped Thursday completely. The country jumped to the other side of the date line overnight.",
+        "Samoan tapa cloth is made from tree bark beaten flat with a wooden mallet — not woven at all."
+      ],
+      dish: "Panipopo — soft sweet buns baked sitting in a pool of coconut cream.",
+      places: [{ name: "Poly Grill & Bakery", area: "" }] }
+  ];
+
+  /* ------------------------------------------------------------------
+     Script loading. The artifact CSP allows scripts from cdnjs and
+     jsdelivr only, so the world geometry rides in on datamaps, which
+     bundles a topology as Datamap.prototype.worldTopo.
+     ------------------------------------------------------------------ */
+
+  var SOURCES = [
+    { key: "d3", urls: [
+      "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js",
+      "https://cdn.jsdelivr.net/npm/d3@3.5.17/d3.min.js"
+    ] },
+    { key: "topojson", urls: [
+      "https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.27/topojson.min.js",
+      "https://cdn.jsdelivr.net/npm/topojson@1.6.27/build/topojson.min.js"
+    ] },
+    { key: "Datamap", urls: [
+      "https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.9/datamaps.world.min.js",
+      "https://cdn.jsdelivr.net/npm/datamaps@0.5.9/dist/datamaps.world.min.js"
+    ] }
+  ];
+
+  function loadScript(url) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = url;
+      s.async = false;
+      s.onload = resolve;
+      s.onerror = function () { reject(new Error("failed: " + url)); };
+      document.head.appendChild(s);
+    });
+  }
+
+  function loadOne(source) {
+    if (window[source.key]) return Promise.resolve();
+    return loadScript(source.urls[0])
+      .catch(function () { return loadScript(source.urls[1]); })
+      .then(function () {
+        if (!window[source.key]) throw new Error("missing global " + source.key);
+      });
+  }
+
+  function loadAll() {
+    return SOURCES.reduce(function (chain, source) {
+      return chain.then(function () { return loadOne(source); });
+    }, Promise.resolve());
+  }
+
+  /* ------------------------------------------------------------------
+     Dossier
+     ------------------------------------------------------------------ */
+
+  var el = {
+    country: document.getElementById("d-country"),
+    capital: document.getElementById("d-capital"),
+    coords: document.getElementById("d-coords"),
+    hello: document.getElementById("d-hello"),
+    facts: document.getElementById("d-facts"),
+    dish: document.getElementById("d-dish"),
+    places: document.getElementById("d-places"),
+    spin: document.getElementById("spin"),
+    hint: document.getElementById("hint"),
+    frame: document.getElementById("globeFrame"),
+    canvas: document.getElementById("globe")
+  };
+
+  function formatCoords(lonlat) {
+    var lon = lonlat[0], lat = lonlat[1];
+    return Math.abs(lat).toFixed(0) + "° " + (lat >= 0 ? "N" : "S") + ", " +
+           Math.abs(lon).toFixed(0) + "° " + (lon >= 0 ? "E" : "W");
+  }
+
+  function mapsUrl(place) {
+    var q = place.name + ", " + (place.area || "Los Angeles, CA");
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  }
+
+  function renderDossier(entry, animate) {
+    el.country.textContent = entry.name;
+    el.capital.textContent = entry.capital;
+    el.coords.textContent = formatCoords(entry.lonlat);
+    el.hello.textContent = entry.hello;
+    el.dish.textContent = entry.dish;
+
+    if (animate) {
+      el.country.classList.remove("pop");
+      void el.country.offsetWidth;
+      el.country.classList.add("pop");
+    }
+
+    el.facts.textContent = "";
+    entry.facts.forEach(function (text, i) {
+      var li = document.createElement("li");
+      var dot = document.createElement("span");
+      dot.className = "dot";
+      dot.textContent = String(i + 1);
+      var p = document.createElement("span");
+      p.textContent = text;
+      li.appendChild(dot);
+      li.appendChild(p);
+      el.facts.appendChild(li);
+    });
+
+    el.places.textContent = "";
+    entry.places.forEach(function (place) {
+      var a = document.createElement("a");
+      a.className = "place";
+      a.href = mapsUrl(place);
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+
+      var name = document.createElement("span");
+      name.className = "place-name";
+      name.textContent = place.name;
+
+      var area = document.createElement("span");
+      area.className = "place-area";
+      area.textContent = place.area || "Los Angeles";
+
+      var go = document.createElement("span");
+      go.className = "place-go";
+      go.textContent = "Map ↗";
+
+      a.appendChild(name);
+      a.appendChild(go);
+      a.appendChild(area);
+      el.places.appendChild(a);
+    });
+
+    resetQuiz();
+  }
+
+  /* ------------------------------------------------------------------
+     Pop quiz. One true fact about this country against two true facts
+     about somewhere else — so a wrong answer still teaches something.
+     Entirely optional, and it resets whenever the globe stops somewhere new.
+     ------------------------------------------------------------------ */
+
+  var q = {
+    start: document.getElementById("quizStart"),
+    body: document.getElementById("quizBody"),
+    question: document.getElementById("quizQ"),
+    options: document.getElementById("quizOptions"),
+    feedback: document.getElementById("quizFeedback"),
+    present: document.getElementById("present"),
+    again: document.getElementById("quizAgain")
+  };
+
+  function shuffle(list) {
+    for (var i = list.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = list[i]; list[i] = list[j]; list[j] = t;
+    }
+    return list;
+  }
+
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  function resetQuiz() {
+    q.body.hidden = true;
+    q.present.hidden = true;
+    q.present.classList.remove("open");
+    q.again.hidden = true;
+    q.options.textContent = "";
+    q.feedback.textContent = "";
+    q.feedback.className = "quiz-feedback";
+    q.start.hidden = false;
+  }
+
+  function askQuestion() {
+    q.start.hidden = true;
+    q.body.hidden = false;
+    q.present.hidden = true;
+    q.present.classList.remove("open");
+    q.again.hidden = true;
+    q.feedback.textContent = "";
+    q.feedback.className = "quiz-feedback";
+
+    q.question.textContent = "Which one of these is true about " + current.name + "?";
+
+    var decoys = shuffle(ATLAS.filter(function (e) { return e.iso !== current.iso; })).slice(0, 2);
+    var answers = shuffle([
+      { text: pick(current.facts), right: true },
+      { text: pick(decoys[0].facts), right: false, from: decoys[0].name },
+      { text: pick(decoys[1].facts), right: false, from: decoys[1].name }
+    ]);
+
+    q.options.textContent = "";
+    answers.forEach(function (a) {
+      var b = document.createElement("button");
+      b.className = "opt";
+      b.type = "button";
+      b.textContent = a.text;
+      b.addEventListener("click", function () { answer(b, a); });
+      q.options.appendChild(b);
+    });
+  }
+
+  function answer(button, a) {
+    if (!a.right) {
+      button.classList.add("is-wrong");
+      button.disabled = true;
+      q.feedback.textContent = "Not quite — that one's about " + a.from + ". Have another go.";
+      q.feedback.className = "quiz-feedback bad";
+      return;
+    }
+
+    button.classList.add("is-right");
+    Array.prototype.forEach.call(q.options.children, function (b) { b.disabled = true; });
+    q.feedback.textContent = "Yes! You were paying attention.";
+    q.feedback.className = "quiz-feedback good";
+    q.present.hidden = false;
+    q.again.hidden = false;
+
+    if (reduceMotion.matches) {
+      q.present.classList.add("open");
+      return;
+    }
+    requestAnimationFrame(function () {
+      q.present.classList.add("open");
+      var r = q.present.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height * 0.3);
+    });
+  }
+
+  q.start.addEventListener("click", askQuestion);
+  q.again.addEventListener("click", askQuestion);
+
+  /* ---- rainbow confetti ---- */
+
+  var cc = document.getElementById("confetti");
+  var cctx = cc.getContext("2d");
+  var bits = [];
+  var confettiRunning = false;
+  var RAINBOW = ["#E8453C", "#F59B21", "#F7D046", "#3CB44B", "#3B8DE0", "#6C4BD1", "#E062B0"];
+
+  function burst(x, y) {
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    cc.width = Math.round(window.innerWidth * d);
+    cc.height = Math.round(window.innerHeight * d);
+    cctx.setTransform(d, 0, 0, d, 0, 0);
+
+    for (var i = 0; i < 150; i++) {
+      bits.push({
+        x: x, y: y,
+        vx: (Math.random() - 0.5) * 15,
+        vy: -(5 + Math.random() * 14),
+        w: 6 + Math.random() * 7,
+        h: 9 + Math.random() * 9,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.34,
+        color: RAINBOW[i % RAINBOW.length],
+        live: true
+      });
+    }
+
+    if (!confettiRunning) {
+      confettiRunning = true;
+      requestAnimationFrame(confettiTick);
+    }
+  }
+
+  function confettiTick() {
+    cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    var alive = 0;
+
+    for (var i = 0; i < bits.length; i++) {
+      var b = bits[i];
+      if (!b.live) continue;
+
+      b.vy += 0.34;
+      b.vx *= 0.995;
+      b.x += b.vx;
+      b.y += b.vy;
+      b.rot += b.vr;
+
+      if (b.y > window.innerHeight + 40) { b.live = false; continue; }
+      alive++;
+
+      cctx.save();
+      cctx.translate(b.x, b.y);
+      cctx.rotate(b.rot);
+      cctx.fillStyle = b.color;
+      cctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+      cctx.restore();
+    }
+
+    if (alive > 0) {
+      requestAnimationFrame(confettiTick);
+    } else {
+      bits = [];
+      confettiRunning = false;
+      cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Globe
+     ------------------------------------------------------------------ */
+
+  var ctx = el.canvas.getContext("2d");
+  var base = document.createElement("canvas");     // the globe at rest, redrawn only when it turns
+  var bctx = base.getContext("2d");
+
+  var projection = null, path = null, pathB = null, land = null, byIso = {};
+  var circle = null, graticule = null;
+  var rotation = [0, 0], baseRot = null;
+  var current = ATLAS[Math.floor(Math.random() * ATLAS.length)];
+  var markerOpacity = 1;
+  var spinning = false;
+  var dragging = false;
+  var idle = true;
+  var dirty = true;
+  var W = 440, H = 510, cx = 220, cy = 202, R = 182, ringR = 197, ringW = 12;
+  var frameTime = 0;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // A school globe leans 23.5°, the same tilt as the real Earth.
+  var TILT = 23.5 * Math.PI / 180;
+
+  // Political colours, the way a classroom globe divides up the map.
+  var LANDS = ["#F7E5A6", "#EFB2A3", "#C4D9A3", "#F4C78E", "#D9C8E5", "#E5D0A2", "#BFD9D2"];
+  var OCEAN_LIT  = "#9CC8E4";
+  var OCEAN_MID  = "#5F9AC6";
+  var OCEAN_DEEP = "#2E6392";
+  var BORDER = "rgba(72, 58, 40, 0.55)";
+  var GRAT   = "rgba(28, 48, 66, 0.22)";
+  var PIN     = "#D83E27";
+  var PIN_LIT = "#F7845F";
+
+  function resize() {
+    var rect = el.frame.getBoundingClientRect();
+    W = Math.max(220, Math.min(rect.width, 440));
+    H = W * 1.16;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    [el.canvas, base].forEach(function (cv) {
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+    });
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    R = W * 0.415;
+    cx = W / 2;
+    cy = W * 0.465;
+    ringR = R * 1.085;
+    ringW = Math.max(5, W * 0.028);
+
+    if (projection) projection.scale(R).translate([cx, cy]);
+    dirty = true;
+    draw();
+  }
+
+  function ringAt(lonlat, angle) {
+    return circle.origin(lonlat).angle(angle)();
+  }
+
+  function tilted(c, fn) {
+    c.save();
+    c.translate(cx, cy);
+    c.rotate(TILT);
+    c.translate(-cx, -cy);
+    fn();
+    c.restore();
+  }
+
+  function renderBase() {
+    var c = bctx;
+    c.clearRect(0, 0, W, H);
+
+    var brass = c.createLinearGradient(cx - ringR, cy - ringR, cx + ringR, cy + ringR);
+    brass.addColorStop(0.00, "#F5E0AE");
+    brass.addColorStop(0.28, "#B78A3E");
+    brass.addColorStop(0.55, "#EBCC90");
+    brass.addColorStop(0.80, "#9A702C");
+    brass.addColorStop(1.00, "#CCA662");
+
+    // the shadow it casts on the desk
+    c.beginPath();
+    c.ellipse(cx, H - W * 0.035, W * 0.25, W * 0.030, 0, 0, Math.PI * 2);
+    c.fillStyle = "rgba(26, 36, 34, 0.10)";
+    c.fill();
+
+    // stem and foot
+    var stemTop = cy + ringR - ringW * 0.5;
+    c.fillStyle = brass;
+    c.fillRect(cx - W * 0.019, stemTop, W * 0.038, (H - W * 0.095) - stemTop);
+
+    c.beginPath();
+    c.ellipse(cx, H - W * 0.072, W * 0.195, W * 0.040, 0, 0, Math.PI * 2);
+    c.fillStyle = brass;
+    c.fill();
+    c.strokeStyle = "rgba(84, 60, 20, 0.35)";
+    c.lineWidth = 1;
+    c.stroke();
+
+    // the ball itself, leaning on its axis
+    tilted(c, function () {
+      var og = c.createRadialGradient(cx - R * 0.40, cy - R * 0.42, R * 0.05, cx, cy, R * 1.02);
+      og.addColorStop(0, OCEAN_LIT);
+      og.addColorStop(0.55, OCEAN_MID);
+      og.addColorStop(1, OCEAN_DEEP);
+      c.beginPath();
+      c.arc(cx, cy, R, 0, Math.PI * 2);
+      c.fillStyle = og;
+      c.fill();
+
+      c.save();
+      c.beginPath();
+      c.arc(cx, cy, R, 0, Math.PI * 2);
+      c.clip();
+
+      if (land) {
+        land.features.forEach(function (f) {
+          c.beginPath();
+          pathB(f);
+          c.fillStyle = f.__color;
+          c.fill();
+          c.strokeStyle = BORDER;
+          c.lineWidth = 0.6;
+          c.stroke();
+        });
+      }
+
+      // lat and long lines run over land and sea alike, like the real thing
+      c.beginPath();
+      pathB(graticule);
+      c.strokeStyle = GRAT;
+      c.lineWidth = 0.6;
+      c.stroke();
+
+      c.restore();
+    });
+
+    // lacquer: a highlight up top, a shaded limb at the edge
+    c.save();
+    c.beginPath();
+    c.arc(cx, cy, R, 0, Math.PI * 2);
+    c.clip();
+
+    var limb = c.createRadialGradient(cx - R * 0.22, cy - R * 0.28, R * 0.25, cx, cy, R);
+    limb.addColorStop(0, "rgba(40, 28, 10, 0)");
+    limb.addColorStop(0.74, "rgba(40, 28, 10, 0)");
+    limb.addColorStop(1, "rgba(38, 26, 8, 0.40)");
+    c.fillStyle = limb;
+    c.fillRect(cx - R, cy - R, R * 2, R * 2);
+
+    var hl = c.createRadialGradient(cx - R * 0.40, cy - R * 0.46, 0, cx - R * 0.40, cy - R * 0.46, R * 0.66);
+    hl.addColorStop(0, "rgba(255, 255, 255, 0.32)");
+    hl.addColorStop(1, "rgba(255, 255, 255, 0)");
+    c.fillStyle = hl;
+    c.fillRect(cx - R, cy - R, R * 2, R * 2);
+    c.restore();
+
+    // brass meridian ring
+    c.beginPath();
+    c.arc(cx, cy, ringR, 0, Math.PI * 2);
+    c.strokeStyle = brass;
+    c.lineWidth = ringW;
+    c.stroke();
+
+    c.strokeStyle = "rgba(84, 60, 20, 0.30)";
+    c.lineWidth = 1;
+    c.beginPath(); c.arc(cx, cy, ringR + ringW / 2, 0, Math.PI * 2); c.stroke();
+    c.beginPath(); c.arc(cx, cy, ringR - ringW / 2, 0, Math.PI * 2); c.stroke();
+
+    // the two pins the ball spins on, set at the same lean as the axis
+    [1, -1].forEach(function (s) {
+      var px = cx + s * ringR * Math.sin(TILT);
+      var py = cy - s * ringR * Math.cos(TILT);
+      c.beginPath();
+      c.arc(px, py, ringW * 0.6, 0, Math.PI * 2);
+      c.fillStyle = "#E8CD90";
+      c.fill();
+      c.strokeStyle = "rgba(84, 60, 20, 0.45)";
+      c.lineWidth = 1;
+      c.stroke();
+    });
+  }
+
+  function draw() {
+    if (!projection) return;
+    projection.rotate(rotation);
+
+    if (dirty || !baseRot || baseRot[0] !== rotation[0] || baseRot[1] !== rotation[1]) {
+      renderBase();
+      baseRot = [rotation[0], rotation[1]];
+      dirty = false;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.drawImage(base, 0, 0);
+    ctx.restore();
+
+    if (markerOpacity <= 0) return;
+
+    tilted(ctx, function () {
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.globalAlpha = markerOpacity;
+
+      var feature = byIso[current.iso];
+      if (feature) {
+        ctx.beginPath();
+        path(feature);
+        ctx.fillStyle = PIN;
+        ctx.fill();
+        ctx.strokeStyle = "rgba(92, 22, 10, 0.65)";
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+      }
+
+      // ring + pin, so the tiny countries still read
+      ctx.beginPath();
+      path(ringAt(current.lonlat, 3.6));
+      ctx.strokeStyle = PIN;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      path(ringAt(current.lonlat, 0.7));
+      ctx.fillStyle = PIN_LIT;
+      ctx.fill();
+
+      // a slow outward pulse, so the spot keeps waving at you
+      if (!spinning && !reduceMotion.matches) {
+        var p = (frameTime % 2400) / 2400;
+        ctx.globalAlpha = markerOpacity * (1 - p) * 0.6;
+        ctx.beginPath();
+        path(ringAt(current.lonlat, 3.6 + p * 4.5));
+        ctx.strokeStyle = PIN;
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+      }
+
+      ctx.globalAlpha = 1;
+    });
+  }
+
+  /* ---- spin ---- */
+
+  function normalize(deg) {
+    var d = (deg + 180) % 360;
+    if (d < 0) d += 360;
+    return d - 180;
+  }
+
+  function goTo(entry) {
+    if (spinning) return;
+    var target = [-entry.lonlat[0], -entry.lonlat[1]];
+
+    if (reduceMotion.matches || !projection) {
+      current = entry;
+      rotation = target;
+      markerOpacity = 1;
+      renderDossier(entry, true);
+      draw();
+      el.spin.textContent = "Spin again";
+      return;
+    }
+
+    spinning = true;
+    idle = false;
+    el.spin.disabled = true;
+    el.spin.textContent = "Spinning…";
+    markerOpacity = 0;
+
+    var from = [rotation[0], rotation[1]];
+    var dLon = normalize(target[0] - from[0]) - 720;
+    var dLat = target[1] - from[1];
+    var duration = 3100;
+    var start = performance.now();
+
+    (function step(now) {
+      frameTime = now;
+      var t = Math.min(1, (now - start) / duration);
+      var e = 1 - Math.pow(1 - t, 4);
+      rotation = [from[0] + dLon * e, from[1] + dLat * e];
+      markerOpacity = t < 0.78 ? 0 : (t - 0.78) / 0.22;
+
+      if (markerOpacity > 0 && current !== entry) {
+        current = entry;
+        renderDossier(entry, true);
+      }
+      draw();
+
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        current = entry;
+        rotation = target;
+        markerOpacity = 1;
+        renderDossier(entry, false);
+        draw();
+        spinning = false;
+        el.spin.disabled = false;
+        el.spin.textContent = "Spin again";
+        el.hint.textContent = "Grab the globe any time to turn it yourself";
+      }
+    })(start);
+  }
+
+  function randomOther() {
+    var pool = ATLAS.filter(function (e) { return e.iso !== current.iso; });
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  el.spin.addEventListener("click", function () { goTo(randomOther()); });
+
+  /* ---- drag ---- */
+
+  var last = null;
+
+  el.canvas.addEventListener("pointerdown", function (ev) {
+    if (spinning) return;
+    dragging = true;
+    idle = false;
+    last = [ev.clientX, ev.clientY];
+    el.canvas.setPointerCapture(ev.pointerId);
+  });
+
+  el.canvas.addEventListener("pointermove", function (ev) {
+    if (!dragging) return;
+    // undo the 23.5° lean so dragging follows the ball, not the screen
+    var dx = ev.clientX - last[0], dy = ev.clientY - last[1];
+    var ct = Math.cos(TILT), st = Math.sin(TILT);
+    var gx = dx * ct + dy * st;
+    var gy = -dx * st + dy * ct;
+    var k = 90 / R;
+    rotation = [
+      rotation[0] + gx * k,
+      Math.max(-88, Math.min(88, rotation[1] - gy * k))
+    ];
+    last = [ev.clientX, ev.clientY];
+    draw();
+  });
+
+  function endDrag(ev) {
+    if (!dragging) return;
+    dragging = false;
+    try { el.canvas.releasePointerCapture(ev.pointerId); } catch (e) {}
+  }
+  el.canvas.addEventListener("pointerup", endDrag);
+  el.canvas.addEventListener("pointercancel", endDrag);
+
+  /* ---- one animation loop: idle drift before the first spin, pulse after ---- */
+
+  function tick(now) {
+    frameTime = now;
+    if (!spinning && !dragging && !reduceMotion.matches) {
+      if (idle) rotation = [rotation[0] + 0.06, rotation[1]];
+      draw();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  /* ------------------------------------------------------------------
+     Boot
+     ------------------------------------------------------------------ */
+
+  renderDossier(current, false);
+
+  loadAll().then(function () {
+    var topo = window.Datamap && window.Datamap.prototype && window.Datamap.prototype.worldTopo;
+    if (!topo || typeof topo !== "object") throw new Error("no topology");
+
+    var key = Object.keys(topo.objects)[0];
+    var fc = window.topojson.feature(topo, topo.objects[key]);
+    land = fc;
+    fc.features.forEach(function (f, i) {
+      byIso[f.id] = f;
+      f.__color = LANDS[i % LANDS.length];
+    });
+
+    projection = window.d3.geo.orthographic().clipAngle(90).precision(0.4);
+    path = window.d3.geo.path().projection(projection).context(ctx);
+    pathB = window.d3.geo.path().projection(projection).context(bctx);
+    circle = window.d3.geo.circle();
+    graticule = window.d3.geo.graticule()();
+
+    rotation = [-current.lonlat[0], -current.lonlat[1]];
+    resize();
+    window.addEventListener("resize", resize);
+    requestAnimationFrame(tick);
+  }).catch(function () {
+    el.frame.classList.add("globe-fallback");
+    el.spin.textContent = "Show me another country";
+    el.hint.textContent = "The map is missing, but the countries still work";
+    el.spin.addEventListener("click", function () {
+      current = randomOther();
+      renderDossier(current, true);
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
